@@ -3,6 +3,7 @@ import * as React from 'react';
 // import Loader from 'react-loader-spinner'
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+
 import './App.css';
 
 interface IState {
@@ -70,17 +71,10 @@ export default class App extends React.Component<{}, IState> {
   }
   
   public componentDidMount(){
-    this.fetchData();
+    this.setState({weather: "Enter in a name of a city to get its weather"});
   }
 
-  public fetchData(){
-    fetch('https://api.openweathermap.org/data/2.5/weather?q=London&appid=2f2d83bc1a4664834a4b1e34fc39791e')
-    .then(response => {return response.json()})
-    .then(parsedJSON => {
-      console.log(parsedJSON.weather[0].main)
-      this.setState({weather: parsedJSON.weather[0].main});
-    })
-  }
+
   
   handleChange(event) {
     this.setState({city: event.target.value});
@@ -92,8 +86,9 @@ export default class App extends React.Component<{}, IState> {
     .then(response => {return response.json()})
     .then(parsedJSON => {
       console.log(parsedJSON.weather[0].main)
-      this.setState({weather: parsedJSON.weather[0].main});
+      this.setState({weather: "Weather: " + parsedJSON.weather[0].main});
     })
+    .catch(error => this.setState({weather: "Incorrect city, please try again..."}));    
     event.preventDefault();
   }
 
@@ -101,23 +96,20 @@ export default class App extends React.Component<{}, IState> {
 
   public render() {
     return (
-    
+
       <div className="container-fluid">
         <div className="centreText">
+        <h2>City Weather Website</h2>
         <p>{this.state.weather}</p>
         <form onSubmit={ this.handleSubmit }>
-  <label>
-    Name:
-    <TextField type="text" name="name" value={this.state.city} onChange={this.handleChange} />
-  </label>
+        
+    City: 
+    <TextField type="text"   name="name" value={this.state.city} onChange={this.handleChange} />
   <Button variant="fab" type="submit" color="primary" aria-label="Add"  value="Submit">
-  Submit
+  Enter
   </Button>
-</form>
 
-        <p>{this.state.city}</p>
-
-          
+</form>   
         </div>
       </div>
     );
