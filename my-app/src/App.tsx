@@ -1,6 +1,4 @@
 import * as React from 'react';
-// import Dropzone from 'react-dropzone'
-// import Loader from 'react-loader-spinner'
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
